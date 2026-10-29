@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saray Restaurant · Türkischer Grill in Düsseldorf</title>
+<meta name="description" content="Saray Restaurant am Worringer Platz – Yaprak Döner, Lahmacun, Kebab & Grill, rund um die Uhr geöffnet. Reservierung: 0211 363557">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ SARAY · Design-Tokens ============ */
+:root{
+  --ink:#140E0A;
+  --ink-2:#1B120C;
+  --cream:#F7EFE3;
+  --muted:#A99380;
+  --muted-2:#8C8174;
+  --accent:#E8622C;      /* Kupfer-Orange */
+  --accent-2:#C9A24B;    /* Gold */
+  --line:rgba(247,239,227,.14);
+  --font-display:"Fraunces",Georgia,serif;
+  --font-body:"Manrope",-apple-system,sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-in-out:cubic-bezier(.77,0,.175,1);
+  --spring:cubic-bezier(.34,1.4,.44,1);
+  --nav-h:76px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--muted-2) transparent}
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:var(--ink)}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+
+/* ---------- Typo ---------- */
+.display{
+  font-family:var(--font-display);
+  font-weight:420;
+  line-height:1.02;
+  letter-spacing:-.015em;
+  font-variation-settings:"opsz" 100;
+}
+
+/* ---------- Nav ---------- */
+nav{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  height:var(--nav-h);
+  display:flex;align-items:center;
+  transition:background .4s var(--ease-out),backdrop-filter .4s;
+}
+nav.scrolled{background:rgba(20,14,10,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.logo{font-family:var(--font-display);font-size:24px;font-weight:500;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+.logo .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block}
+.nav-links{display:flex;gap:34px;font-size:14px;font-weight:600;letter-spacing:.02em}
+.nav-links a{position:relative;padding:8px 0;color:var(--muted);transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:2px;width:100%;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:right;transition:transform .25s var(--ease-out)}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:13px 26px;border-radius:999px;
+  background:var(--accent);color:var(--ink);
+  font-weight:700;font-size:14px;letter-spacing:.02em;
+  transition:transform .2s var(--spring),background .3s,box-shadow .3s;
+}
+.nav-cta:hover{background:#F0754A;box-shadow:0 12px 28px rgba(0,0,0,.5)}
+.nav-cta svg{transition:transform .3s var(--spring)}
+.burger{display:none;background:none;border:0;cursor:pointer;padding:12px;min-width:44px;min-height:44px}
+.burger span{display:block;width:26px;height:2px;background:var(--cream);margin:5px 0;transition:transform .25s var(--ease-out),opacity .25s var(--ease-out)}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mmenu{
+  position:fixed;inset:0;z-index:99;background:var(--ink);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:0 clamp(28px,8vw,64px);
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease-out);
+}
+.mmenu.open{opacity:1;pointer-events:auto}
+.mmenu a{
+  font-family:var(--font-display);font-size:clamp(34px,8vw,52px);font-weight:400;
+  padding:12px 0;border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(18px);
+  transition:opacity .35s var(--ease-out),transform .35s var(--ease-out),color .3s;
+}
+.mmenu.open a{opacity:1;transform:none}
+.mmenu.open a:nth-child(1){transition-delay:.06s}
+.mmenu.open a:nth-child(2){transition-delay:.12s}
+.mmenu.open a:nth-child(3){transition-delay:.18s}
+.mmenu.open a:nth-child(4){transition-delay:.24s}
+.mmenu.open a:nth-child(5){transition-delay:.3s}
+.mmenu.open a:nth-child(6){transition-delay:.36s}
+.mmenu a:hover{color:var(--accent)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;will-change:transform}
+.hero-bg img{width:100%;height:118%;object-fit:cover;transform:scale(1.06);will-change:transform}
+.hero-scrim{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(20,14,10,.55) 0%,rgba(20,14,10,.18) 34%,rgba(20,14,10,.42) 62%,rgba(20,14,10,.96) 100%)}
+.hero-inner{position:relative;width:100%;padding:calc(var(--nav-h) + 40px) 0 84px;z-index:2}
+.hero h1{font-size:clamp(56px,9vw,96px);font-weight:380;letter-spacing:-.03em}
+.hero h1 .accent{color:var(--accent);font-style:italic;font-weight:300}
+.hero-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:36px;margin-top:38px}
+.hero-tag{font-size:clamp(18px,2.2vw,24px);max-width:520px;color:rgba(247,239,227,.88);font-weight:500}
+.hero-tag em{font-family:var(--font-display);font-style:italic;color:var(--accent)}
+.hero-actions{display:flex;flex-direction:column;gap:18px;align-items:flex-end}
+.rating-badge{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:12px 20px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(20,14,10,.5);
+  transition:transform .2s var(--spring),border-color .3s;
+}
+.rating-badge:hover{transform:translateY(-3px);border-color:rgba(232,98,44,.5)}
+.stars{color:var(--accent-2);font-size:17px;letter-spacing:2px}
+.rating-badge .num{font-weight:700;font-size:16px}
+.rating-badge .src{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:18px 34px;border-radius:999px;
+  font-weight:700;font-size:15px;letter-spacing:.03em;cursor:pointer;
+  transition:transform .2s var(--spring),background .3s,box-shadow .3s,color .3s;
+}
+.btn-primary{background:var(--accent);color:var(--ink)}
+.btn-primary:hover{background:#F0754A;box-shadow:0 16px 36px rgba(0,0,0,.55)}
+.btn-ghost{background:transparent;color:var(--cream);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn svg{transition:transform .3s var(--spring)}
+.scroll-hint{
+  position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;
+  color:var(--muted);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.scroll-hint .line{width:1px;height:44px;background:linear-gradient(var(--accent),transparent);animation:drip 2.2s var(--ease-out) infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- Marquee ---------- */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:20px 0;overflow:hidden;background:var(--ink-2);
+}
+.marquee-track{display:flex;gap:56px;width:max-content;animation:scroll 30s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee span{
+  font-family:var(--font-display);font-size:22px;font-style:italic;color:var(--muted);
+  white-space:nowrap;display:flex;align-items:center;gap:56px;
+}
+.marquee span::after{content:"";width:8px;height:8px;background:var(--accent);transform:rotate(45deg);border-radius:1px;flex:none}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- Sections ---------- */
+section{padding:120px 0}
+.section-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px;margin-bottom:64px}
+.section-head h2{font-size:clamp(40px,5.6vw,72px);font-weight:400}
+.section-head .aside{max-width:340px;color:var(--muted);font-size:15.5px}
+
+/* Über uns */
+.about{background:var(--ink-2)}
+.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,6vw,96px);align-items:start}
+.about-copy .display{font-size:clamp(30px,3.4vw,44px);line-height:1.25;font-weight:380;margin:26px 0 28px}
+.about-copy .display em{color:var(--accent);font-style:italic}
+.about-copy p{color:var(--muted);max-width:68ch;margin-bottom:20px}
+.about-copy p strong{color:var(--cream);font-weight:600}
+.about-stamp{display:flex;align-items:center;gap:18px;margin-top:40px;padding-top:28px;border-top:1px solid var(--line)}
+.about-stamp .sig{font-family:var(--font-display);font-style:italic;font-size:24px}
+.about-stamp .role{font-size:13px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.about-visual{position:relative}
+.about-visual .main-img{border-radius:18px;overflow:hidden;aspect-ratio:4/5}
+.about-visual .main-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease-out)}
+.about-visual .float-img{
+  position:absolute;bottom:-44px;left:-8%;width:46%;
+  border-radius:14px;overflow:hidden;aspect-ratio:1/1;
+  border:6px solid var(--ink-2);box-shadow:0 30px 60px rgba(0,0,0,.5);
+  transform:rotate(-4deg);
+}
+.about-visual .float-img img{width:100%;height:100%;object-fit:cover}
+.about-card{
+  position:absolute;top:-34px;right:-4%;
+  background:var(--cream);color:var(--ink);
+  border-radius:16px;padding:22px 26px;
+  box-shadow:0 24px 48px rgba(0,0,0,.45);
+  transform:rotate(3deg);
+}
+.about-card .big{font-family:var(--font-display);font-size:44px;font-weight:500;line-height:1}
+.about-card .stars{color:#D97E12;font-size:15px;letter-spacing:2px}
+.about-card .lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5C5244;margin-top:6px}
+
+/* Speisekarte */
+.menu{position:relative}
+.menu::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(60% 50% at 82% 12%,rgba(232,98,44,.07),transparent 70%);
+  pointer-events:none;
+}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,90px)}
+.menu-col h3{
+  font-family:var(--font-display);font-weight:400;font-style:italic;
+  font-size:26px;color:var(--accent);margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.menu-item{display:flex;align-items:baseline;gap:14px;padding:17px 8px;border-bottom:1px dashed rgba(247,239,227,.12);cursor:default;border-radius:6px;transition:transform .25s var(--spring),background .3s}
+.menu-item:hover{background:rgba(247,239,227,.03)}
+.menu-item .name{font-weight:600;font-size:16.5px}
+.menu-item .desc{display:block;font-size:13.5px;color:var(--muted);font-weight:400;margin-top:3px}
+.menu-item .dots{flex:1;border-bottom:2px dotted rgba(247,239,227,.22);transform:translateY(-5px)}
+.menu-item .price{font-family:var(--font-display);font-size:19px;color:var(--accent);white-space:nowrap}
+.menu-note{margin-top:44px;display:flex;gap:14px;align-items:center;color:var(--muted);font-size:14px}
+.menu-note .badge{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+.menu-note .badge::before{content:"";width:9px;height:9px;background:var(--accent);transform:rotate(45deg)}
+
+/* Galerie */
+.gallery{padding-left:0;padding-right:0}
+.gallery .wrap{margin-bottom:56px}
+.gallery-strip{
+  display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:8px clamp(20px,4vw,56px) 28px;scrollbar-width:thin;scrollbar-color:var(--accent) transparent;
+}
+.gallery-strip::-webkit-scrollbar{height:6px}
+.gallery-strip::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+.gallery-strip figure{flex:0 0 auto;scroll-snap-align:start;width:min(62vw,430px)}
+.gallery-strip img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;transition:transform .35s var(--ease-out)}
+.gallery-strip figcaption{margin-top:12px;font-size:13px;color:var(--muted);font-style:italic;font-family:var(--font-display)}
+
+/* Bewertungen */
+.reviews{background:var(--ink-2)}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.quote{
+  border:1px solid var(--line);border-radius:18px;padding:36px 32px;
+  background:linear-gradient(180deg,rgba(247,239,227,.035),transparent);
+  display:flex;flex-direction:column;gap:20px;
+  transition:transform .25s var(--spring),border-color .3s;
+}
+.quote:hover{border-color:rgba(232,98,44,.4)}
+.quote .stars{font-size:14px}
+.quote p{font-family:var(--font-display);font-style:italic;font-size:19px;line-height:1.45;font-weight:380}
+.quote footer{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.04em}
+.quote footer span{color:var(--accent-2);margin-right:6px}
+.reviews-cta{display:flex;justify-content:center;margin-top:56px}
+.g-badge{
+  display:inline-flex;align-items:center;gap:16px;
+  background:#fff;color:#202124;border-radius:999px;padding:14px 28px;
+  box-shadow:0 18px 40px rgba(0,0,0,.4);
+  transition:transform .2s var(--spring);
+}
+.g-badge .g{font-family:Arial,sans-serif;font-weight:600;font-size:20px}
+.g-badge .g b:nth-child(1){color:#4285F4}.g-badge .g b:nth-child(2){color:#EA4335}.g-badge .g b:nth-child(3){color:#FBBC05}.g-badge .g b:nth-child(4){color:#34A853}.g-badge .g b:nth-child(5){color:#EA4335}
+.g-badge .div{width:1px;height:26px;background:#dadce0}
+.g-badge .score{font-weight:700;font-size:18px}
+.g-badge .score .s{color:#E8A20C;margin-right:4px}
+.g-badge .cnt{font-size:12.5px;color:#5f6368;font-weight:600}
+
+/* Besuch */
+.visit-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,6vw,90px);align-items:stretch}
+.visit-card{background:var(--ink-2);border:1px solid var(--line);border-radius:22px;padding:44px;display:flex;flex-direction:column;gap:34px}
+.visit-block h3{font-family:var(--font-display);font-style:italic;font-weight:400;font-size:22px;color:var(--accent);margin-bottom:16px}
+.hours{width:100%;border-collapse:collapse;font-size:15.5px}
+.hours td{padding:9px 0;border-bottom:1px dashed rgba(247,239,227,.1)}
+.hours td:last-child{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.hours tr.today td{color:var(--accent)}
+.hours tr.today td:last-child{color:var(--accent)}
+.visit-addr{font-style:normal;color:var(--cream);font-size:17px;line-height:1.7}
+.visit-addr .muted{color:var(--muted);font-size:14px}
+.visit-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:4px}
+.map-frame{border-radius:22px;overflow:hidden;border:1px solid var(--line);min-height:480px;position:relative;background:#1B120C}
+.map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:grayscale(1) invert(.9) contrast(.9) hue-rotate(180deg)}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:56px 0 40px}
+.foot-grid{display:flex;flex-wrap:wrap;justify-content:space-between;gap:36px;align-items:flex-start}
+.foot-brand{max-width:300px}
+.foot-brand .logo{font-size:28px;margin-bottom:14px}
+.foot-brand p{color:var(--muted);font-size:14px}
+.foot-col h5{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);margin-bottom:16px}
+.foot-col a,.foot-col p{display:block;color:var(--muted);font-size:14.5px;padding:5px 0;transition:color .3s}
+.foot-col a:hover{color:var(--accent)}
+.foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--muted-2)}
+
+/* ---------- Reveal-Animationen ---------- */
+.reveal{transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);transition-delay:var(--d,0s)}
+.js .reveal{opacity:0;transform:translateY(28px)}
+.js .reveal.in{opacity:1;transform:none}
+.reveal-scale{transition:opacity .7s var(--ease-out),clip-path 1s var(--ease-in-out);transition-delay:var(--d,0s)}
+.js .reveal-scale{opacity:0;clip-path:inset(0 0 100% 0)}
+.js .reveal-scale.in{opacity:1;clip-path:inset(0 0 0 0)}
+.menu-item.reveal{transition:opacity .6s var(--ease-out),transform .6s var(--spring),background .25s}
+.js .menu-item.reveal{transform:translateX(-16px)}
+.js .menu-item.reveal.in{transform:none}
+.gallery-strip figure.reveal{transition:opacity .7s var(--ease-out),clip-path .9s var(--ease-in-out);transition-delay:var(--d,0s)}
+.js .gallery-strip figure.reveal{opacity:0;transform:none;clip-path:inset(0 0 100% 0)}
+.js .gallery-strip figure.reveal.in{opacity:1;clip-path:inset(0 0 0 0)}
+
+.btn:active,.nav-cta:active{transform:scale(.97)}
+.rating-badge:active,.g-badge:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  .nav-cta:hover,.btn:hover{transform:translateY(-3px)}
+  .nav-cta:hover svg,  .rating-badge:hover{transform:translateY(-3px)}
+  .g-badge:hover{transform:translateY(-3px) scale(1.02)}
+  .quote:hover{transform:translateY(-8px)}
+  .menu-item:hover{transform:translateX(10px)}
+  .about-visual:hover .main-img img{transform:scale(1.05)}
+  .gallery-strip figure:hover img{transform:scale(1.04)}
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .reveal,.reveal-scale{opacity:1;transform:none}
+  .js .reveal,.js .reveal-scale{opacity:1;transform:none;clip-path:none}
+  .hero-bg img{transform:none}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1024px){
+  .about-grid,.menu-grid,.visit-grid{grid-template-columns:1fr}
+  .reviews-grid{grid-template-columns:1fr;max-width:640px;margin:0 auto}
+  .about-visual{margin-top:60px}
+  .map-frame{min-height:380px}
+  .nav-links{display:none}
+  .burger{display:block}
+  .nav-cta{margin-left:auto;margin-right:14px}
+}
+@media (max-width:640px){
+  section{padding:84px 0}
+  .hero h1{font-size:clamp(58px,16vw,86px)}
+  .hero-row{flex-direction:column;align-items:flex-start}
+  .hero-actions{align-items:flex-start}
+  .about-visual .float-img{bottom:-28px}
+  .about-card{top:-26px;right:0}
+  .visit-card{padding:30px}
+  .gallery-strip figure{width:78vw}
+  .scroll-hint{display:none}
+  .logo{font-size:20px}
+  .nav-cta{padding:11px 18px;font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">Saray<span class="dot"></span></a>
+    <div class="nav-links">
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#speisekarte">Speisekarte</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#bewertungen">Bewertungen</a>
+      <a href="#besuch">Besuch</a>
+    </div>
+    <a class="nav-cta" href="tel:+49211363557">Bestellen &amp; Reservieren
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mmenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mmenu" id="mmenu">
+  <a href="#ueber-uns">Über uns</a>
+  <a href="#speisekarte">Speisekarte</a>
+  <a href="#galerie">Galerie</a>
+  <a href="#bewertungen">Bewertungen</a>
+  <a href="#besuch">Besuch</a>
+  <a href="tel:+49211363557">Anrufen &amp; bestellen</a>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="hero-bg"><img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2400&auto=format&fit=crop" alt="Frisch gegrilltes Fleisch vom Holzkohlegrill"></div>
+  <div class="hero-scrim"></div>
+  <div class="wrap hero-inner">
+        <h1 class="display reveal" style="--d:.08s">Saray<span class="accent">.</span></h1>
+    <div class="hero-row">
+      <p class="hero-tag reveal" style="--d:.16s">Türkisches Restaurant am Worringer Platz — Yaprak Döner vom Spieß, Lahmacun aus dem Steinofen, Kebab vom Holzkohlegrill. <em>Rund um die Uhr.</em></p>
+      <div class="hero-actions reveal" style="--d:.24s">
+        <a class="rating-badge" href="https://maps.google.com/?q=Saray+Restaurant+Worringer+Stra%C3%9Fe+103+40210+D%C3%BCsseldorf" target="_blank" rel="noopener" aria-label="4,6 Sterne bei Google Maps – alle Bewertungen ansehen">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <span class="num">4,6</span>
+          <span class="src">Google</span>
+        </a>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a class="btn btn-primary" href="tel:+49211363557">Anrufen &amp; bestellen
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#speisekarte">Speisekarte ansehen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true"><span>Scrollen</span><span class="line"></span></div>
+</header>
+
+<!-- ================= MARQUEE ================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Lahmacun</span><span>Yaprak Döner</span><span>Adana Kebab</span><span>İskender</span><span>Pide</span><span>Baklava</span><span>Künefe</span>
+    <span>Lahmacun</span><span>Yaprak Döner</span><span>Adana Kebab</span><span>İskender</span><span>Pide</span><span>Baklava</span><span>Künefe</span>
+  </div>
+</div>
+
+<!-- ================= ÜBER UNS ================= -->
+<section class="about" id="ueber-uns">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-copy">
+                <h2 class="display reveal" style="--d:.08s">Feuer, Fleisch<br>&amp; <em>türkische Gastfreundschaft.</em></h2>
+        <p class="reveal" style="--d:.14s"><strong>Unser Yaprak Döner wird täglich von Hand geschichtet</strong> — Kalbsfleisch, marinierte Schichten, langsam am Spieß gegrillt und hauchdünn abgeschnitten. Dazu Lahmacun knusprig aus dem Steinofen und Kebab über echter Holzkohle.</p>
+        <p class="reveal" style="--d:.2s">Egal ob morgens, mittags oder mitten in der Nacht: Bei uns am Worringer Platz ist immer Feuer an. Wer einmal hier war, kommt wieder.</p>
+        <div class="about-stamp reveal" style="--d:.26s">
+          <span class="sig">Afiyet olsun!</span>
+          <span class="role">— „Guten Appetit!“ auf Türkisch</span>
+        </div>
+      </div>
+      <div class="about-visual reveal-scale" style="--d:.15s">
+        <div class="main-img"><img src="https://images.unsplash.com/photo-1529694157872-4e0c0f3b238b?q=80&w=1200&auto=format&fit=crop" alt="Aufgeschnittenes, perfekt gegrilltes Fleisch"></div>
+        <div class="float-img"><img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?q=80&w=700&auto=format&fit=crop" alt="Frischer Salat mit Feta"></div>
+        <div class="about-card" aria-hidden="true">
+          <div class="big">4,6</div>
+          <div class="stars">★★★★★</div>
+          <div class="lbl">3.154 Google-Bewertungen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPEISEKARTE ================= -->
+<section class="menu" id="speisekarte">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+                <h2 class="display reveal" style="--d:.06s">Ein Auszug unserer Karte</h2>
+      </div>
+      <p class="aside reveal" style="--d:.12s">Alle Preise in €. Tagesgerichte und Sonderwünsche — fragen Sie einfach, wir richten uns nach Ihnen.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-col">
+        <h3 class="reveal">Döner &amp; Klassiker</h3>
+        <!-- MENU: Beispielgerichte für die Demo — durch echte Karte ersetzen -->
+        <div class="menu-item reveal" style="--d:.05s"><span class="name">Yaprak Döner im Brot<span class="desc">Vom handgeschichteten Kalbsspieß, hauchdünn geschnitten</span></span><span class="dots"></span><span class="price">7,50</span></div>
+        <div class="menu-item reveal" style="--d:.1s"><span class="name">Yaprak Döner Teller<span class="desc">Mit Reis, Salat &amp; Fladenbrot</span></span><span class="dots"></span><span class="price">14,50</span></div>
+        <div class="menu-item reveal" style="--d:.15s"><span class="name">Lahmacun<span class="desc">Knusprig aus dem Steinofen, mit frischem Salat</span></span><span class="dots"></span><span class="price">5,50</span></div>
+        <div class="menu-item reveal" style="--d:.2s"><span class="name">İskender Kebab<span class="desc">Döner auf Fladenbrot, Tomatensoße, Joghurt &amp; Butter</span></span><span class="dots"></span><span class="price">16,50</span></div>
+        <h3 class="reveal" style="margin-top:44px">Vom Holzkohlegrill</h3>
+        <div class="menu-item reveal" style="--d:.05s"><span class="name">Adana Kebab<span class="desc">Scharfer Hackfleischspieß, gegrillte Paprika &amp; Bulgur</span></span><span class="dots"></span><span class="price">15,50</span></div>
+        <div class="menu-item reveal" style="--d:.1s"><span class="name">Şiş Kebab (Lamm)<span class="desc">Marinierte Lammspieße, gegrillt über Holzkohle</span></span><span class="dots"></span><span class="price">17,50</span></div>
+        <div class="menu-item reveal" style="--d:.15s"><span class="name">Köfte<span class="desc">Türkische Frikadellen mit Reis &amp; Salat</span></span><span class="dots"></span><span class="price">14,00</span></div>
+        <div class="menu-item reveal" style="--d:.2s"><span class="name">Karışık Grill-Teller<span class="desc">Adana, Şiş &amp; Köfte — für die, die alles wollen</span></span><span class="dots"></span><span class="price">21,50</span></div>
+      </div>
+      <div class="menu-col">
+        <h3 class="reveal">Pide, Desserts &amp; Getränke</h3>
+        <div class="menu-item reveal" style="--d:.05s"><span class="name">Pide mit Käse<span class="desc">Bootförmiges Fladenbrot, mit Weißkäse belegt</span></span><span class="dots"></span><span class="price">10,00</span></div>
+        <div class="menu-item reveal" style="--d:.1s"><span class="name">Pide mit Sucuk &amp; Ei<span class="desc">Würzige Knoblauchwurst, Ei, Käse</span></span><span class="dots"></span><span class="price">11,00</span></div>
+        <div class="menu-item reveal" style="--d:.15s"><span class="name">Sigara Böreği<span class="desc">Knusprige Teigröllchen mit Feta-Füllung</span></span><span class="dots"></span><span class="price">6,50</span></div>
+        <div class="menu-item reveal" style="--d:.2s"><span class="name">Künefe<span class="desc">Warmes Fadenteig-Dessert mit Käse &amp; Sirup, mit Pistazien</span></span><span class="dots"></span><span class="price">8,50</span></div>
+        <div class="menu-item reveal" style="--d:.25s"><span class="name">Baklava<span class="desc">Blätterteig, Pistazien, Honigsirup — hausgemacht</span></span><span class="dots"></span><span class="price">6,00</span></div>
+        <div class="menu-item reveal" style="--d:.3s"><span class="name">Ayran<span class="desc">Hausgemacht, schaumig gerührt</span></span><span class="dots"></span><span class="price">3,00</span></div>
+        <div class="menu-item reveal" style="--d:.35s"><span class="name">Türkischer Tee<span class="desc">Im klassischen Tulpen-Glas, stark &amp; heiß</span></span><span class="dots"></span><span class="price">2,00</span></div>
+      </div>
+    </div>
+    <div class="menu-note reveal">
+      <span class="badge" aria-hidden="true"></span>
+      <span>Rund um die Uhr für Sie da · Halal · Preise in € · Scharfe Stufe wählbar</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALERIE ================= -->
+<section class="gallery" id="galerie">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+                <h2 class="display reveal" style="--d:.06s">Feuer &amp; Geschmack</h2>
+      </div>
+      <p class="aside reveal" style="--d:.12s">Vom Spieß auf den Teller — Eindrücke aus unserer Küche und unserem Gastraum.</p>
+    </div>
+  </div>
+  <div class="gallery-strip" aria-label="Bildergalerie — horizontal scrollen">
+    <figure class="reveal"><img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=900&auto=format&fit=crop" alt="Fleisch auf dem Grill"><figcaption>Vom Holzkohlegrill</figcaption></figure>
+    <figure class="reveal" style="--d:.08s"><img src="https://images.unsplash.com/photo-1529694157872-4e0c0f3b238b?q=80&w=900&auto=format&fit=crop" alt="Aufgeschnittenes Grillfleisch"><figcaption>Auf den Punkt gegrillt</figcaption></figure>
+    <figure class="reveal" style="--d:.16s"><img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?q=80&w=900&auto=format&fit=crop" alt="Frischer Salat"><figcaption>Frischer Salat dazu</figcaption></figure>
+    <figure class="reveal" style="--d:.24s"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=900&auto=format&fit=crop" alt="Gastraum"><figcaption>Unser Gastraum</figcaption></figure>
+    <figure class="reveal" style="--d:.32s"><img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=900&auto=format&fit=crop" alt="Getränk an der Theke"><figcaption>An der Theke</figcaption></figure>
+    <figure class="reveal" style="--d:.4s"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=900&auto=format&fit=crop" alt="Angerichteter Teller"><figcaption>Liebe zum Detail</figcaption></figure>
+  </div>
+</section>
+
+<!-- ================= BEWERTUNGEN ================= -->
+<section class="reviews" id="bewertungen">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+                <h2 class="display reveal" style="--d:.06s">Was unsere Gäste sagen</h2>
+      </div>
+      <p class="aside reveal" style="--d:.12s">Echte Stimmen von Google — 4,6 Sterne bei über 3.100 Bewertungen.</p>
+    </div>
+    <div class="reviews-grid">
+      <blockquote class="quote reveal">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <p>„Ich hatte einen super leckeren Lahmacun mit Kalbsdöner. Das Fleisch war sehr zart und der Salat sehr frisch und ausreichend leckere Soßen.“</p>
+        <footer><span>★★★★★</span>DrR Channel · Google-Rezension</footer>
+      </blockquote>
+      <blockquote class="quote reveal" style="--d:.1s">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <p>„Gegessen habe ich den Yaprak Döner mit einer Cola Zero. Das Fleisch schmeckt lecker — klare Empfehlung.“</p>
+        <footer><span>★★★★★</span>Faruk · Google-Rezension</footer>
+      </blockquote>
+      <blockquote class="quote reveal" style="--d:.2s">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <p>„Auch mitten in der Nacht frisch gegrillt, freundliche Bedienung und faire Preise. Mein Anlaufpunkt am Worringer Platz.“</p>
+        <footer><span>★★★★★</span>Gast · Google-Rezension</footer>
+      </blockquote>
+    </div>
+    <div class="reviews-cta reveal">
+      <a class="g-badge" href="https://maps.google.com/?q=Saray+Restaurant+Worringer+Stra%C3%9Fe+103+40210+D%C3%BCsseldorf" target="_blank" rel="noopener">
+        <span class="g" aria-hidden="true"><b>G</b><b>o</b><b>o</b><b>g</b><b>l</b><b>e</b></span>
+        <span class="div"></span>
+        <span class="score"><span class="s">★</span>4,6</span>
+        <span class="cnt">3.154 Google-Bewertungen ansehen →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BESUCH ================= -->
+<section class="visit" id="besuch">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+                <h2 class="display reveal" style="--d:.06s">Rund um die Uhr für Sie da</h2>
+      </div>
+      <p class="aside reveal" style="--d:.12s">Direkt am Worringer Platz, nur wenige Minuten vom Hauptbahnhof.</p>
+    </div>
+    <div class="visit-grid">
+      <div class="visit-card reveal">
+        <div class="visit-block">
+          <h3>Öffnungszeiten</h3>
+          <table class="hours">
+            <tbody>
+              <tr class="today"><td>Montag – Sonntag</td><td>24 Stunden geöffnet</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="visit-block">
+          <h3>Anfahrt &amp; Kontakt</h3>
+          <address class="visit-addr">
+            Saray Restaurant<br>
+            Worringer Straße 103 · 40210 Düsseldorf<br>
+            <span class="muted">Worringer Platz · U-Bahn/Straßenbahn Worringer Platz, 1 Min. zu Fuß · Hauptbahnhof 5 Min.</span>
+          </address>
+          <div class="visit-actions">
+            <a class="btn btn-primary" href="tel:+49211363557">Anrufen &amp; bestellen</a>
+            <a class="btn btn-ghost" href="https://maps.google.com/?q=Saray+Restaurant+Worringer+Stra%C3%9Fe+103+40210+D%C3%BCsseldorf" target="_blank" rel="noopener">Route planen</a>
+          </div>
+        </div>
+      </div>
+      <div class="map-frame reveal-scale" style="--d:.12s">
+        <iframe title="Karte: Saray Restaurant, Worringer Straße 103, Düsseldorf" src="https://www.google.com/maps?q=Worringer+Stra%C3%9Fe+103%2C+40210+D%C3%BCsseldorf&output=embed&hl=de" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="logo">Saray<span class="dot"></span></span>
+        <p>Türkischer Grill am Worringer Platz. Yaprak Döner, Lahmacun und Holzkohle-Kebab — rund um die Uhr, sieben Tage die Woche.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Navigation</h5>
+        <a href="#ueber-uns">Über uns</a>
+        <a href="#speisekarte">Speisekarte</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#bewertungen">Bewertungen</a>
+      </div>
+      <div class="foot-col">
+        <h5>Kontakt</h5>
+        <p>Worringer Straße 103<br>40210 Düsseldorf</p>
+        <a href="tel:+49211363557">0211 363557</a>
+        <a href="https://maps.google.com/?q=Saray+Restaurant+Worringer+Stra%C3%9Fe+103+40210+D%C3%BCsseldorf" target="_blank" rel="noopener">Auf Google Maps →</a>
+      </div>
+      <div class="foot-col">
+        <h5>Öffnungszeiten</h5>
+        <p>Mo – So · 24 Stunden<br>Feiertags geöffnet</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Saray Restaurant · Alle Rechte vorbehalten</span>
+      <span>Türkisches Restaurant · Worringer Straße 103, Düsseldorf</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ Motion: Scroll-Reveals, Parallax, Nav ============ */
+(function(){
+  document.documentElement.classList.add('js');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var nav = document.getElementById('nav');
+  function onScrollNav(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }
+  window.addEventListener('scroll', onScrollNav, {passive:true});
+  onScrollNav();
+
+  var burger = document.getElementById('burger');
+  var mmenu = document.getElementById('mmenu');
+  burger.addEventListener('click', function(){
+    var open = mmenu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mmenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mmenu.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  if(!reduced){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(function(el){ io.observe(el); });
+
+    var heroBg = document.querySelector('.hero-bg img');
+    var ticking = false;
+    function parallax(){
+      var y = window.scrollY;
+      if(y < window.innerHeight * 1.2){
+        heroBg.style.transform = 'scale(1.06) translateY(' + (y * 0.22) + 'px)';
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if(!ticking){ ticking = true; requestAnimationFrame(parallax); }
+    }, {passive:true});
+  }
+})();
+</script>
+</body>
+</html>
